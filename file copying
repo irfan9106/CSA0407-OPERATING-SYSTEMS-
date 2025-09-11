@@ -1,0 +1,21 @@
+import os
+def copy_file(src, dest):
+    # Open source file (read-only)
+    fd_read = os.open(src, os.O_RDONLY)
+    # Open/create destination file (write-only, create if not exists, truncate if exists)
+    fd_write = os.open(dest, os.O_WRONLY | os.O_CREAT | os.O_TRUNC)
+    while True:
+        # Read data in chunks of 1024 bytes
+        data = os.read(fd_read, 1024)
+        if not data:  # end of file
+            break
+        os.write(fd_write, data)  # write to destination
+    # Close files
+    os.close(fd_read)
+    os.close(fd_write)
+    print("File copied successfully")
+if _name_ == "_main_":
+    # Example: Copy contents of 'source.txt' to 'destination.txt'
+    copy_file("source.txt", "destination.txt")
+
+
