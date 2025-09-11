@@ -1,0 +1,11 @@
+def sjf(processes):
+    n = len(processes)
+    completed = [False]*n
+    ct, tat, wt = [0]*n, [0]*n, [0]*n
+    time = 0
+    done = 0
+    while done < n:
+        idx = -1
+        min_bt = float('inf')
+        for i in range(n):
+            if processes[i][1] <=
