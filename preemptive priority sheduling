@@ -1,0 +1,51 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Fri Sep 12 14:49:23 2025
+
+@author: MADHAVAN MADDY
+"""
+
+
+
+n = int(input("Enter the number of processes: "))
+burst_time = []
+priority = []
+for i in range(n):
+    bt = int(input(f"Enter the Burst time for process P{i+1}: "))
+    pr = int(input(f"Enter the Priority for process P{i+1}: "))
+    burst_time.append(bt)
+    priority.append(pr)
+
+remaining_time = burst_time[:]
+waiting_time = [0]*n
+turnaround_time = [0]*n
+completion_time = [0]*n
+time = 0
+done = 0
+
+while done < n:
+    idx = -1
+    highest = 999999
+    for i in range(n):
+        if remaining_time[i] > 0 and priority[i] < highest:
+            highest = priority[i]
+            idx = i
+    if idx != -1:
+        remaining_time[idx] -= 1
+        time += 1
+        if remaining_time[idx] == 0:
+            completion_time[idx] = time
+            turnaround_time[idx] = completion_time[idx]
+            waiting_time[idx] = turnaround_time[idx] - burst_time[idx]
+            done += 1
+    else:
+        time += 1
+
+print("Process\tBurst time\tPriority\tWaiting time\tTurn around time")
+for i in range(n):
+    print(f"P{i+1}\t\t{burst_time[i]}\t\t\t{priority[i]}\t\t\t{waiting_time[i]}\t\t\t{turnaround_time[i]}")
+
+avg_w_t = sum(waiting_time)/n
+avg_t_t = sum(turnaround_time)/n
+print(f"Average Waiting time is: {avg_w_t}")
+print(f"Average Turnaround time is: {avg_t_t}")
