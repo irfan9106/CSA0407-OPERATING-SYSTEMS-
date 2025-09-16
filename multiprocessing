@@ -1,0 +1,11 @@
+from multiprocessing import Process,Value,freeze_support
+def add_num(num1):
+    num1.value+=13
+    print("after adding 13 we got :",num1.value)
+if __name__=="__main__":
+    num=Value("i",20)
+    print("Intial value is: ",num.value)
+    p=Process(target=add_num,args=(num,))
+    p.start()
+    p.join()
+    print("after addition we got: ",num.value)
