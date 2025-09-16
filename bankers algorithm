@@ -1,0 +1,52 @@
+def bankers_algorithm(processes, available, max_demand, allocation):
+    n = len(processes)   
+    m = len(available)  
+
+
+    need = [[max_demand[i][j] - allocation[i][j] for j in range(m)] for i in range(n)]
+
+   
+    finish = [False] * n
+    safe_sequence = []
+    work = available[:]
+
+  
+    while len(safe_sequence) < n:
+        allocated = False
+        for i in range(n):
+            if not finish[i] and all(need[i][j] <= work[j] for j in range(m)):
+                
+                work = [work[j] + allocation[i][j] for j in range(m)]
+                finish[i] = True
+                safe_sequence.append(processes[i])
+                allocated = True
+        if not allocated:
+            break
+
+   
+    if len(safe_sequence) == n:
+        print("System is in a SAFE state")
+        print("Safe Sequence:", safe_sequence)
+    else:
+        print(" System is in an UNSAFE state (Deadlock possible)")
+
+
+processes = [0, 1, 2, 3, 4]
+available = [3, 3, 2]  
+max_demand = [
+    [7, 5, 3],  
+    [3, 2, 2],  
+    [9, 0, 2],  
+    [2, 2, 2],  
+    [4, 3, 3]   
+]
+
+allocation = [
+    [0, 1, 0],  
+    [2, 0, 0],  
+    [3, 0, 2],  
+    [2, 1, 1],  
+    [0, 0, 2]   
+]
+
+bankers_algorithm(processes, available, max_demand, allocation)
